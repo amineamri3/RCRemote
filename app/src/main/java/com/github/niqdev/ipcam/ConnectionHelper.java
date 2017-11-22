@@ -16,7 +16,7 @@ import java.net.Socket;
 
 public class ConnectionHelper extends AsyncTask<String ,Void ,Void> {
 
-
+Socket socket;
 
 
     @Override
@@ -24,11 +24,13 @@ public class ConnectionHelper extends AsyncTask<String ,Void ,Void> {
 
         try {
             Log.d("IP",params[0]);
-            Socket socket = new Socket(params[0], 8888);
+            socket = new Socket(params[0], 8888);
             DataOutputStream DOS = new DataOutputStream(socket.getOutputStream());
 
-            DOS.writeUTF(params[1]+"\n");
+            DOS.writeBytes(params[1]+'\n');
             Log.d("SENT",params[1]);
+            DOS.flush();
+            DOS.close();
             socket.close();
 
 
